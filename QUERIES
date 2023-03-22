@@ -225,3 +225,35 @@ insert into class values(1,'Xth', 'M',13);
 alter table class
 drop constraint check_;
 
+create table class1(
+classid int,
+classname varchar(20) default 'Xth',
+created_at datetime default now()
+);
+describe class1;
+
+alter table class
+alter gender set default 'F';
+
+describe class;
+
+
+alter table class
+modify gender varchar(2) default 'M';
+
+
+create index index_name
+on class1(classname);
+
+describe class1;
+
+alter table class1
+drop index index_name;
+
+create view view_alldata as select * from sales_info limit 5;
+
+select * from view_alldata;
+
+create view view_unitedstates_sales as select * from sales_info where country='United States' limit 5;
+
+select * from view_unitedstates_sales;
