@@ -257,3 +257,42 @@ select * from view_alldata;
 create view view_unitedstates_sales as select * from sales_info where country='United States' limit 5;
 
 select * from view_unitedstates_sales;
+
+drop view view_alldata;
+
+delimiter @@
+create procedure stored_procedure( )
+begin
+select * from sales_info;
+end
+@@
+call stored_procedure();
+
+delimiter @@ 
+create procedure procedure_name(state_ varchar(20))
+begin
+select * from sales_info where state=state_;
+end
+@@
+
+call procedure_name('Ohio');
+
+drop procedure if exists procedure_name;
+
+
+select * , (case quantity 
+				when 1 then "One"
+                when 2 then "Two"
+                when 3 then "Three"
+			else "Greater than 3"
+            end ) as quantity_ from sales_info;
+
+select * from sales_info order by (case 
+when quantity<=1 then "one" 
+when quantity=2 then "two"
+else "three"
+end); 
+
+create trigger before delete on sales_info for each row
+delete from sales info 
+
