@@ -1,1 +1,63 @@
+use sql_practice;
 
+select * from sales_info;
+
+select id,country,product_category,quantity from sales_info;
+
+delete from sales_info where id =8 and product_category='Accessories';
+
+select distinct(country) from sales_info; 
+
+select id, cost from sales_info where quantity=3 or not country='United Kingdom';
+
+select * from sales_info order by product_category, date_of_order;
+
+select cost from sales_info order by cost desc limit 1 offset 3;
+
+select max(quantity), min(cost) from sales_info;
+
+select min(quantity), max(cost) from sales_info;
+
+select count(*) from sales_info;
+
+select count(*) from sales_info where country='United Kingdom';
+
+select avg(quantity) from sales_info;
+
+select sum(revenue) from sales_info;
+
+select count(*) from sales_info where sub_category like 'G%';
+
+select count(*) from sales_info where sub_category like 'G_____';
+
+select count(*) from sales_info where sub_category like '%st%';
+
+select count(*) from sales_info where sub_category ='fenders';
+
+select * from sales_info where product_category like '%oth%';
+
+select * from sales_info where product_category like 'B%S';
+
+select * from sales_info where product_category in ('Bikes','Accessories');
+
+select * from sales_info where sub_category not in ('gloves' , 'helmets');
+
+select distinct state from sales_info where product_category in (select product_category from sales_info where state='Ohio');
+
+select * from sales_info where quantity between 3 and 4;
+
+select country, count(*) from sales_info group by country;
+
+select country, sum(revenue) as total_revenue from sales_info group by country;
+
+select country, state, year, sum(revenue) as p from sales_info group by country, state, year order by country , state;
+
+select country, state, year,month, sum(revenue) as p from sales_info group by country, state, year, month order by country , state,year,date_of_order;
+
+select country, state, count(quantity) as p from sales_info group by country,state having p>3000;
+
+select country, count(distinct state) as "No of states" from sales_info group by country;
+
+select country,state from sales_info where country='Germany'
+union
+select country,state from sales_info where quantity=3;
