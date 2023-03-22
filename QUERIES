@@ -145,3 +145,83 @@ add column syntax varchar(20) default 'hello';
 alter table lpo2
 drop column created;
 
+drop table practice_1;
+
+create table practice_1(
+id int auto_increment not null,
+name varchar(20) not null,
+phone_number bigint not null unique,
+primary key(id));
+
+insert into practice_1 values(1,'Naman',9810898976);
+insert into practice_1 values(2,'Nikunj',9809989878);
+
+create table practice2(
+id int ,
+name varchar(20),
+age int,
+education varchar(20),
+Constraint Prkey Primary key(id)
+);
+
+select * from practice2;
+
+insert into practice2 values(1,'naman',24,'Undergraduate'), (2,'Sidd',16,'11th');
+
+describe practice2;
+
+alter table practice2
+add constraint Unikey unique(name);
+
+alter table practice2
+add constraint prkey primary key(id);
+
+alter table practice2
+drop Primary key;
+
+create table classroom(
+classid int primary key,
+student_id int,
+classroom int,
+constraint foreign_key foreign key(student_id) references practice2(id)
+);
+
+describe classroom;
+
+insert into classroom values(123,1,3),(122,2,4);
+
+select * from practice2 join classroom on practice2.id = classroom.student_id; 
+
+alter table classroom
+drop constraint foreign_key;
+
+describe classroom;
+
+create table employee1(
+emp_id int,
+emp_name varchar(20),
+dept_id int,
+age int,
+Primary key(emp_id),
+constraint for_key foreign key (dept_id) references practice2(id),
+Check(age>=19)
+);
+
+insert into employee1 values(1,'naman',123,12);
+
+insert into employee1 values(2,'herr',1,19);
+
+create table class(
+classid int,
+classname varchar(10),
+gender varchar(2),
+no_of_students int,
+constraint check_ check(no_of_students >20 and (gender='F' or gender ='M'))
+);
+insert into class values(1,'Xth', 'F',23);
+
+insert into class values(1,'Xth', 'M',13);
+
+alter table class
+drop constraint check_;
+
