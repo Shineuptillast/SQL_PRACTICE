@@ -61,3 +61,87 @@ select country, count(distinct state) as "No of states" from sales_info group by
 select country,state from sales_info where country='Germany'
 union
 select country,state from sales_info where quantity=3;
+
+delimiter @@
+create procedure sales_country()
+begin 
+
+select * from sales_info limit 5;
+
+end
+@@
+call sales_country();
+
+drop procedure sales_count;
+delimiter @@
+create procedure sales_count(country_name VARCHAR(20), quantity int)
+begin 
+select * from sales_info where country = country_name and quantity = quantity limit 5;
+end
+@@
+call sales_count('United Kingdom',2);
+
+create database sql_practice_1;
+
+show databases;
+
+drop database sql_practice_1;
+
+show databases;
+
+desc sales_info;
+
+create table lpo1(
+ created datetime default NOW()
+ 
+ );
+insert into lpo1 values();
+
+desc lpo1;
+
+select * from lpo1;
+
+drop table lpo1;
+
+desc sales_info;
+
+insert into lpo1 select date_of_order from sales_info;
+
+create table lpo2(
+ created datetime default NOW()
+ 
+ );
+insert into lpo2 values (), () ;
+
+select * from lpo2;
+
+insert into lpo2 values (), () ,(),();
+
+insert into lpo2 values (null);
+
+select * from lpo2 where created is null;
+
+select * from lpo2 where created is not null;
+
+update sales_info 
+set year = 1998 where year = 2015;
+
+delete from lpo2;
+
+select count(*) from sales_info where year=1998;
+
+update sales_info 
+set year = 2015 where year = 1998;
+
+update lpo2 set created = now() where created is null;
+
+select * from lpo2;
+
+describe lpo2;
+
+alter table lpo2
+add column syntax varchar(20) default 'hello';
+
+alter table lpo2
+drop column created;
+
