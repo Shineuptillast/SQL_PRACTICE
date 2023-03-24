@@ -1,3 +1,6 @@
+
+
+
 use sql_practice;
 
 select * from sales_info;
@@ -295,4 +298,5 @@ end);
 
 create trigger before delete on sales_info for each row
 delete from sales info 
+
 
