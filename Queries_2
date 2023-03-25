@@ -300,3 +300,14 @@ create trigger before delete on sales_info for each row
 delete from sales info 
 
 
+create table candidates(
+candidate_id int,
+skill varchar(30),
+primary key(candidate_id,skill)
+);
+
+insert into candidates values(123,"python"),(123,"Tableau"),(123,"PostgreSQl"),(234,"R"),(234,"PowerBI"),(234,"SQLServer");
+
+select * from candidates;
+
+select candidate_id, skill, group_concat( skill order by skill) from candidates group by candidate_id;
