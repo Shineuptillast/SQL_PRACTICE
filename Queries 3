@@ -1,0 +1,407 @@
+use sql_practice;
+
+select * from sales_info;
+
+select id,country,product_category,quantity from sales_info;
+
+delete from sales_info where id =8 and product_category='Accessories';
+
+select distinct(country) from sales_info; 
+
+select id, cost from sales_info where quantity=3 or not country='United Kingdom';
+
+select * from sales_info order by product_category, date_of_order;
+
+select cost from sales_info order by cost desc limit 1 offset 3;
+
+select max(quantity), min(cost) from sales_info;
+
+select min(quantity), max(cost) from sales_info;
+
+select count(*) from sales_info;
+
+select count(*) from sales_info where country='United Kingdom';
+
+select avg(quantity) from sales_info;
+
+select sum(revenue) from sales_info;
+
+select count(*) from sales_info where sub_category like 'G%';
+
+select count(*) from sales_info where sub_category like 'G_____';
+
+select count(*) from sales_info where sub_category like '%st%';
+
+select count(*) from sales_info where sub_category ='fenders';
+
+select * from sales_info where product_category like '%oth%';
+
+select * from sales_info where product_category like 'B%S';
+
+select * from sales_info where product_category in ('Bikes','Accessories');
+
+select * from sales_info where sub_category not in ('gloves' , 'helmets');
+
+select distinct state from sales_info where product_category in (select product_category from sales_info where state='Ohio');
+
+select * from sales_info where quantity between 3 and 4;
+
+select country, count(*) from sales_info group by country;
+
+select country, sum(revenue) as total_revenue from sales_info group by country;
+
+select country, state, year, sum(revenue) as p from sales_info group by country, state, year order by country , state;
+
+select country, state, year,month, sum(revenue) as p from sales_info group by country, state, year, month order by country , state,year,date_of_order;
+
+select country, state, count(quantity) as p from sales_info group by country,state having p>3000;
+
+select country, count(distinct state) as "No of states" from sales_info group by country;
+
+select country,state from sales_info where country='Germany'
+union
+select country,state from sales_info where quantity=3;
+
+delimiter @@
+create procedure sales_country()
+begin 
+
+select * from sales_info limit 5;
+
+end
+@@
+call sales_country();
+
+drop procedure sales_count;
+delimiter @@
+create procedure sales_count(country_name VARCHAR(20), quantity int)
+begin 
+select * from sales_info where country = country_name and quantity = quantity limit 5;
+end
+@@
+call sales_count('United Kingdom',2);
+
+create database sql_practice_1;
+
+show databases;
+
+drop database sql_practice_1;
+
+show databases;
+
+desc sales_info;
+
+create table lpo1(
+ created datetime default NOW()
+ 
+ );
+insert into lpo1 values();
+
+desc lpo1;
+
+select * from lpo1;
+
+drop table lpo1;
+
+desc sales_info;
+
+insert into lpo1 select date_of_order from sales_info;
+
+create table lpo2(
+ created datetime default NOW()
+ 
+ );
+insert into lpo2 values (), () ;
+
+select * from lpo2;
+
+insert into lpo2 values (), () ,(),();
+
+insert into lpo2 values (null);
+
+select * from lpo2 where created is null;
+
+select * from lpo2 where created is not null;
+
+update sales_info 
+set year = 1998 where year = 2015;
+
+delete from lpo2;
+
+select count(*) from sales_info where year=1998;
+
+update sales_info 
+set year = 2015 where year = 1998;
+
+update lpo2 set created = now() where created is null;
+
+select * from lpo2;
+
+describe lpo2;
+
+alter table lpo2
+add column syntax varchar(20) default 'hello';
+
+alter table lpo2
+drop column created;
+
+drop table practice_1;
+
+create table practice_1(
+id int auto_increment not null,
+name varchar(20) not null,
+phone_number bigint not null unique,
+primary key(id));
+
+insert into practice_1 values(1,'Naman',9810898976);
+insert into practice_1 values(2,'Nikunj',9809989878);
+
+create table practice2(
+id int ,
+name varchar(20),
+age int,
+education varchar(20),
+Constraint Prkey Primary key(id)
+);
+
+select * from practice2;
+
+insert into practice2 values(1,'naman',24,'Undergraduate'), (2,'Sidd',16,'11th');
+
+describe practice2;
+
+alter table practice2
+add constraint Unikey unique(name);
+
+alter table practice2
+add constraint prkey primary key(id);
+
+alter table practice2
+drop Primary key;
+
+create table classroom(
+classid int primary key,
+student_id int,
+classroom int,
+constraint foreign_key foreign key(student_id) references practice2(id)
+);
+
+describe classroom;
+
+insert into classroom values(123,1,3),(122,2,4);
+
+select * from practice2 join classroom on practice2.id = classroom.student_id; 
+
+alter table classroom
+drop constraint foreign_key;
+
+describe classroom;
+
+create table employee1(
+emp_id int,
+emp_name varchar(20),
+dept_id int,
+age int,
+Primary key(emp_id),
+constraint for_key foreign key (dept_id) references practice2(id),
+Check(age>=19)
+);
+
+insert into employee1 values(1,'naman',123,12);
+
+insert into employee1 values(2,'herr',1,19);
+
+create table class(
+classid int,
+classname varchar(10),
+gender varchar(2),
+no_of_students int,
+constraint check_ check(no_of_students >20 and (gender='F' or gender ='M'))
+);
+insert into class values(1,'Xth', 'F',23);
+
+insert into class values(1,'Xth', 'M',13);
+
+alter table class
+drop constraint check_;
+
+create table class1(
+classid int,
+classname varchar(20) default 'Xth',
+created_at datetime default now()
+);
+describe class1;
+
+alter table class
+alter gender set default 'F';
+
+describe class;
+
+
+alter table class
+modify gender varchar(2) default 'M';
+
+
+create index index_name
+on class1(classname);
+
+describe class1;
+
+alter table class1
+drop index index_name;
+
+create view view_alldata as select * from sales_info limit 5;
+
+select * from view_alldata;
+
+create view view_unitedstates_sales as select * from sales_info where country='United States' limit 5;
+
+select * from view_unitedstates_sales;
+
+drop view view_alldata;
+
+delimiter @@
+create procedure stored_procedure( )
+begin
+select * from sales_info;
+end
+@@
+call stored_procedure();
+
+delimiter @@ 
+create procedure procedure_name(state_ varchar(20))
+begin
+select * from sales_info where state=state_;
+end
+@@
+
+call procedure_name('Ohio');
+
+drop procedure if exists procedure_name;
+
+
+SELECT 
+    *,
+    (CASE quantity
+        WHEN 1 THEN 'One'
+        WHEN 2 THEN 'Two'
+        WHEN 3 THEN 'Three'
+        ELSE 'Greater than 3'
+    END) AS quantity_
+FROM
+    sales_info;
+
+SELECT 
+    *
+FROM
+    sales_info
+ORDER BY (CASE
+    WHEN quantity <= 1 THEN 'one'
+    WHEN quantity = 2 THEN 'two'
+    ELSE 'three'
+END); 
+
+create trigger before delete on sales_info for each row
+delete from sales info 
+
+
+create table candidates(
+candidate_id int,
+skill varchar(30),
+primary key(candidate_id,skill)
+);
+
+insert into candidates values(123,"python"),(123,"Tableau"),(123,"PostgreSQl"),(234,"R"),(234,"PowerBI"),(234,"SQLServer");
+
+SELECT 
+    *
+FROM
+    candidates;
+
+with cte_rec (candidate_id, skill_for_job ) as 
+(select candidate_id, sum(case when skill = 'PostgreSQl' or skill='python' or skill ='Tableau' then 1 else 0 end) as skill_for_job from candidates group by candidate_id having skill_for_job =3 order by candidate_id)
+select candidate_id from cte_rec;
+
+
+SELECT 
+    skill
+FROM
+    candidates
+WHERE
+    candidate_id IN (SELECT DISTINCT
+            (candidate_id)
+        FROM
+            candidates)
+        AND skill;
+
+SELECT a.candidate_id,b.candidate_id, a.skill, b.skill FROM candidates a, candidates b
+
+
+create table emp(
+emp_id int,
+emp_name varchar(20),
+salary varchar(20),
+skills varchar(20))
+;
+insert into emp values(1,"Naman",30000,"Python") ,(1,"Naman",30000,"Hadoop"),(1,"Naman",30000,"Kafka"),(2,"Kirti",30000,"Sql"),(2,"Kirti",30000,"Python");
+insert into emp values(3,"Preeti",30000,"Speaking"),(3,"Preeti",30000,"Python");
+
+
+select * from emp;
+
+select emp_name from emp group by emp_name having sum(case when skills in ('Python','Hadoop','Kafka') then 1 else 0 end)>=2;
+
+
+create table emp1(
+emp_id int,
+emp_name varchar(20),
+emp_dept varchar(20)
+);
+
+insert into emp1 values(1,"Kunal","PNE"),(2,"Simran","PNE"),(3,"Suray","PNE");
+
+
+create table emp2(
+emp_id int,
+emp_name varchar(20),
+emp_dept varchar(20)
+);
+
+insert into emp2 values(1,"Kunal","WDE"),(2,"Kiran","ATE"),(3,"Keshav","PSE");
+
+select * from emp1
+union all 
+select * from emp2;
+
+
+select * from emp1
+union 
+select * from emp2;
+
+insert into emp2 values(1,"Kunal","PNE");
+
+select * from emp1
+union all 
+select * from emp2;
+
+
+select * from emp1
+union 
+select * from emp2;
+
+select emp_id from emp1
+union 
+select emp_id from emp2;
+
+select emp_id, emp_dept from emp1
+union 
+select emp_id, emp_dept from emp2;
+
+select * from emp1,emp2;
+
+
+
+
+
+
+
