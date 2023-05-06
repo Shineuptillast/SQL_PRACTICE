@@ -1,0 +1,68 @@
+show databases
+select * from property_sale.house
+use property_sale
+DELIMITER $$
+create procedure proc0( in active varchar(30) )
+BEGIN 
+	select 
+        sum(price)
+	from 
+		house
+	where yob=active; 
+	
+END$$
+DELIMITER ;
+call proc0(2018);
+drop procedure proc0
+DELIMITER $$
+create procedure proc( in active varchar(30), out out_ float )
+BEGIN 
+	set  out_=sqrt(active);
+	
+END$$
+DELIMITER ;
+call proc(400,@out_);
+select @out_;
+
+
+SELECT concat('HELLO',NULL);
+
+
+
+SELECT LCASE('HELLO')
+
+
+SELECT REPLACE('HELLO', 'E','P');
+
+select substring('sqlthebest.language', position('.' in 'sqlthebest.language'));
+
+
+
+select character_length('hello naman');
+
+select find_in_set('a','hello,a')
+
+SELECT instr('hello','l')
+
+
+select current_date;
+
+select current_time;
+
+select current_timestamp;
+
+select cast(current_date() as varchar);
+
+select cast(current_timestamp()) 
+
+select extract(year from '2018-09-09');
+
+
+select datediff(current_date, '2019-03-12');
+
+select extract(month from current_date);
+
+
+select now(), current_timestamp();
+
+select curdate() , current_date;
