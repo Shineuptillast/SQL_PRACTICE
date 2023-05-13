@@ -1,0 +1,59 @@
+create database test1;
+show databases;
+use test1;
+
+drop database test1;
+
+create database Test;
+
+show databases;
+
+use Test;
+
+create table if not exists employee(
+    id int,
+    name varchar(30)
+);
+
+show tables;
+create table if not exists employee(
+    id int,
+    name varchar(30)
+);
+
+describe employee;
+
+insert into employee values(1,"Naman");
+
+select * from employee;
+
+show create table employee;
+
+drop table employee;
+
+create table if not exists employee(
+    id int,
+    name varchar(20),
+    salary double,
+    hiring_date DATE
+
+);
+
+insert into employee values(1,'Naman',75000,'2020-07-16');
+
+insert into employee values(2,'Preeti',80000,'2021-02-10'),(2,'Keshav',90000,'2020-08-01');
+
+select * from employee;
+
+insert into employee(salary,name,id) values(40000,'Nirjara',3)
+
+
+
+
+
+
+
+
+
+
+
